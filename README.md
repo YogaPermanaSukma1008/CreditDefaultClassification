@@ -119,7 +119,7 @@ Hasil Evaluasi Model Tanpa SMOTE :
   - Recall: 0.8695652173913043
   - F1-score: 0.3116883116883117
 
-![image.png](https://drive.google.com/file/d/1FSeJWlAyBxehFYHFROnC4rKbrKmvTGwP/view?usp=sharing)
+![Perbandingan Model](https://drive.google.com/uc?export=view&id=1FSeJWlAyBxehFYHFROnC4rKbrKmvTGwP)
 
 Berikut adalah hasil prediksi model dengan SMOTE: 
 1. Random Forest:
@@ -140,7 +140,8 @@ Berikut adalah hasil prediksi model dengan SMOTE:
   - Recall: 0.8551
   - F1-score: 0.2972
 
-![image.png](https://drive.google.com/file/d/1uFgn_qdyk7N97RTWGPGdfqWZUiGf7009/view?usp=sharing)
+![erbandingan Model(With SMOTE)](https://drive.google.com/uc?export=view&id=1uFgn_qdyk7N97RTWGPGdfqWZUiGf7009)
+
 
 Meskipun telah menggunakan SMOTE, namun hasil membuktikan bahwa penggunaan SMOTE pada kasus ini justru menurunkan akurasi model dan model tidak signifikan mengenali dengan baik pada kelas 1. 
 
