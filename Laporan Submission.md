@@ -17,12 +17,12 @@ Berdasarkan uraian pendahuluan diatas, dirumuskan beberapa pernyataan masalah se
 ## Solusi
 Untuk mencapai tujuan di atas, proyek ini mengusulkan beberapa solusi teknis dan pendekatan:
 1.	Menggunakan tiga model machine learning yang berbeda sebagai baseline:
-o	Logistic Regression 
-o	Random Forest
-o	Support Vector Machine (SVM)
+- 	Logistic Regression 
+- 	Random Forest
+- 	Support Vector Machine (SVM)
 2.	Melakukan pre-processing dan optimasi dataset melalui:
-o	Feature selection dengan berbasis korelasi. Mengingat data yang digunakan mempunyai fitur target binary (0 dan 1) maka teknik feature selection yang dapat diaplikasikan dan cukup sederhana adalah feature selection berbasis korelasi. Fitur - fitur independen yang saling berkaitan (multicolinearity) akan dihapus salah satunya sehingga tidak redundant atau menghapus fitur independen yang memiliki korelasi lemah terhadap fitur target. Untuk menerapkan feature selection jenis ini, proyek ini akan menggunakan teknik visualisasi data berupa heatmap (peta panas) sehingga dapat terpetakan dan mudah dibaca korelasi antar fitur.
-o	Penyeimbangan data (jika tidak seimbang) menggunakan SMOTE (Synthetic Minority Oversampling Technique). Proses ini dilakukan mengingat data non default lebih banyak dibandingkan data default. 
+- 	Feature selection dengan berbasis korelasi. Mengingat data yang digunakan mempunyai fitur target binary (0 dan 1) maka teknik feature selection yang dapat diaplikasikan dan cukup sederhana adalah feature selection berbasis korelasi. Fitur - fitur independen yang saling berkaitan (multicolinearity) akan dihapus salah satunya sehingga tidak redundant atau menghapus fitur independen yang memiliki korelasi lemah terhadap fitur target. Untuk menerapkan feature selection jenis ini, proyek ini akan menggunakan teknik visualisasi data berupa heatmap (peta panas) sehingga dapat terpetakan dan mudah dibaca korelasi antar fitur.
+- 	Penyeimbangan data (jika tidak seimbang) menggunakan SMOTE (Synthetic Minority Oversampling Technique). Proses ini dilakukan mengingat data non default lebih banyak dibandingkan data default. 
 3.	Melakukan hyperparameter tuning dengan teknik seperti GridSearchCV atau RandomizedSearchCV untuk masing-masing model agar diperoleh konfigurasi yang optimal. Penggunaan Hyperparameter Tuning sangat bermanfaat karena berpotensi dapat meningkatkan akurasi sekaligus menghindari terjadinya overfitting. Dalam proyek ini akurasi yang ingin dicapai adalah 85 persen dengan menggunakan 3 algoritma machine learning yaitu logistic regression, random forest, dan support vector machine (SVM). Untuk logistic regression hyperparameter yang digunakan umumnya adalah regularisasi, random forest adalah n_estimator dan max depth sementara itu untuk SVM menggunakan kernel, c, dan gamma.
 4.	Mengukur performa setiap model secara terstandar menggunakan metrik evaluasi: Accuracy, Precision, Recall, dan F1-Score.
 5.	Model dengan performa terbaik akan dipilih sebagai rekomendasi akhir untuk diimplementasikan dalam sistem penilaian kredit berbasis machine learning.
