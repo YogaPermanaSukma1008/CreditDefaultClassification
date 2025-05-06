@@ -32,10 +32,11 @@ Untuk mencapai tujuan di atas, proyek ini mengusulkan beberapa solusi teknis dan
 Dataset yang digunakan dalam proyek ini berasal dari kaggle dengan link sebagai berikut [Dataset](https://www.kaggle.com/datasets/kmldas/loan-default-prediction/data). Data ini adalah kumpulan data sintetis yang dibuat menggunakan data aktual dari lembaga keuangan. Data telah dimodifikasi untuk menghilangkan fitur yang dapat diidentifikasi dan angka diubah untuk memastikan data tidak terkait dengan sumber asli (lembaga keuangan).
 
 Dataset ini berisi 10000 baris dengan 4 kolom (3 fitur independen dan 1 fitur target). Berikut adalah fitur - fitur yang terkandung pada dataset:
-1. Employed : Menyatakan tentang status pekerjaan (apakah bekerja atau tidak). Data pada fitur ini dinyatakan sebagai binary, dimana 1 menyatakan seseorang bekerja (employed) dan 0 menyarakan seseorang tidak bekerja (not employed).
-2. Bank Balance : Merupakan data numerik yang menyatakan jumlah saldo pada akun bank nasabah.
-3. Annual Salary : Merupakan data numerik yang menyatakan gaji tahunan nasabah.
-4. Default : Merupakan data binary (boolean) yang menyatakan status default nasabah. Angka 1 menyatakan default (gagal bayar) dan 0 adalah not default (tidak gagal bayar).
+1. Index : nomor seri atau pengenal unik dari penerima pinjaman
+2. Employed : Menyatakan tentang status pekerjaan (apakah bekerja atau tidak). Data pada fitur ini dinyatakan sebagai binary, dimana 1 menyatakan seseorang bekerja (employed) dan 0 menyarakan seseorang tidak bekerja (not employed).
+3. Bank Balance : Merupakan data numerik yang menyatakan jumlah saldo pada akun bank nasabah.
+4. Annual Salary : Merupakan data numerik yang menyatakan gaji tahunan nasabah.
+5. Default : Merupakan data binary (boolean) yang menyatakan status default nasabah. Angka 1 menyatakan default (gagal bayar) dan 0 adalah not default (tidak gagal bayar).
 Sebelum dilakukan proses EDA, perlu memahami data structure dengan melakukan loading data. Berdasarkan tahap loading data dan data understanding, terdapat 10000 baris dengan 5 kolom (index, Employed, Bank Balance, Annual Salary dan Default). Seluruh fitur data merupakan data numerik dengan 3 fitur integer dan 2 fitur float. Tidak terdapat data kosong atau data duplikat sehingga tidak perlu membersihkan data karena data ini telah bersih. 
 
 ### EDA (Exploratory Data Analysis)
@@ -45,12 +46,14 @@ EDA (Exploratory Data Analysis) adalah proses eksplorasi awal terhadap data sebe
 3. Melihat adanya outlier menggunakan boxplot dan IQR.
 4. Melihat korelasi antar fitur menggunakan heatmap.
 
+Pada proses EDA, ditemukan outlier hanya pada fitur bank balance. Namun outlier ini tidak dimungkinkan untuk dihapus karena berisi informasi yang merepresentasikan kondisi peminjam yang sebenarnya. Tingginya bank balance merepresentasikan kemampuan bayar dari peminjam sangat tinggi. Sementara itu distribusi Bank Balance terdistribusi positif (right skewed) atau memiliki kecenderungan data terpusat pada nilai dibawah mean. Pada Annual Salary terdistribusi bimodal atau memiliki dua puncak. Analisis korelasi secara sekaligus digunakan untuk feature selecetion berbasis korelasi. Hasil analisis korelasi menggunakan heatmap menemukan bahwa Bank Balance mempunyai korelasi positif terhadap Default sebesar 0.35 sementara itu terjadi korelasi tinggi antara Employed dan Annual Salary sebesar 0.75.  
+
 ## Data Preparation
 ### Penghapusan Kolom yang tidak relevan (Drop)
 Kolom index tidak diperlukan dalam analisis klasifikasi ini karena tidak mempunyai informasi yang jelas untuk dijadikan sebagai fitur independent sehingga perlu dilakukan dropping atau penghapusan kolom. 
 
 ### Feature Selection
-Merupakan pemilihan fitur yang relevan dan tidak redundant. Dalam proyek ini feature scaling yang digunakan adalah berbasis korelasi. Fitur yang memiliki korelasi besar terhadap target akan dipilih. Sementara jika antar fitur independen saling berkorelasi akan dipilih salah satunya.
+Merupakan pemilihan fitur yang relevan dan tidak redundant. Dalam proyek ini feature scaling yang digunakan adalah berbasis korelasi. Fitur yang memiliki korelasi besar terhadap target akan dipilih. Sementara jika antar fitur independen saling berkorelasi akan dipilih salah satunya. Hasil analisis korelasi menunjukkan bahwa Bank Balance mempunyai korelasi yang lebih tinggi dibandingkan 2 fitur lainnya sebesar 0.35. Terjadi multicolinearity antara fitur independen yaitu Employed dan Annual Salary sehingga dapat menghapus salah satunya sebesar 0.75. Korelasi keduanya bisa sangat tinggi karena orang yang bekerja sudah tentu mempunyai penghasilan. Namun dalam hal ini, annual salary lah yang terpilih dibandingkan employee status. Hal ini dikarenakan seseorang dapat mempunyai penghasilan meskipun tidak bekerja misalnya pemberian orang tua, pendapatan pasif seperti hasil investasi, dana sumbangan atau hal lainnnya sehingga dapat dijadikan salah satu faktor penting dalam penilaian kredit. 
 
 ### Data Splitting
 Terdapat dua proses data splitting. Pertama memisahkan variabel independen dengan variabel target. Kedua memisahkan data untuk data train dan data test, sehingga pada masing-masing variabel terdapat data train dan testnya.
@@ -137,12 +140,16 @@ Hasil Evaluasi Model Tanpa SMOTE :
   - Presisi: 0.189873417721519
   - Recall: 0.8695652173913043
   - F1-score: 0.3116883116883117
+    
+Notes: 
+- LR & SVM: Kedua model ini sangat agresif dalam memprediksi kelas positif, sehingga recall tinggi (positif yang benar banyak dikenali), tapi precision sangat rendah (banyak false positives). F1-Score juga rendah, karena precision buruk.
+- RF : Akurasi tinggi kemungkinan besar disebabkan oleh ketidakseimbangan kelas (class imbalance), sehingga model lebih sering memprediksi kelas mayoritas. Namun, precision, recall, dan F1-score rendah, menunjukkan buruk dalam mengenali kelas minoritas (misalnya default). 
 
-![Perbandingan Model](https://drive.google.com/uc?export=view&id=1FSeJWlAyBxehFYHFROnC4rKbrKmvTGwP)
 
 - Hasil Evaluasi Model dengan SMOTE: 
 Meskipun telah menggunakan SMOTE, namun hasil membuktikan bahwa penggunaan SMOTE pada kasus ini justru menurunkan akurasi model dan model tidak signifikan mengenali dengan baik pada kelas 1. Berikut adalah hasil evaluasi model dengan SMOTE: 
-Berikut adalah hasil prediksi model dengan SMOTE: 
+Berikut adalah hasil prediksi model dengan SMOTE:
+
 1. Random Forest:
   - Accuracy: 0.9020
   - Precision: 0.2019
@@ -160,8 +167,8 @@ Berikut adalah hasil prediksi model dengan SMOTE:
   - Precision: 0.1799
   - Recall: 0.8551
   - F1-score: 0.2972
+Notes: Secara keseluruhan setelah penggunaan SMOTE, akurasi seluruh model menurun. Meskipun demikian, seluruh model masih berada pada target yang ditentukan (>85%). Random Forest menjadi model terbaik dikarenakan tingkat akurasi yang lebih tinggi dibandingkan yang lainnya. Sementara itu, Model terbaik untuk recall tinggi (menghindari false negatives) yaitu Logistic Regression.
 
-![Perbandingan Model(With SMOTE)](https://drive.google.com/uc?export=view&id=1uFgn_qdyk7N97RTWGPGdfqWZUiGf7009)
 
 ## Kesimpulan
 1. Data yang digunakan untuk pembangunan model berasal dari pemilihan fitur berbasis korelasi (feature selection). Teknik ini cukup sederhana yaitu hanya dengan melihat korelasi antar fitur. Jika korelasi fitur independen dengan fitur target besar maka akan dipilih. Sementara jika terjadi korelasi tinggi antar fitur independen maka akan dipilih salah satunya. Dengan pendekatan ini model akan bebas dari multikolinearitas terutama pada model yang sensitif pada multikolinearitas.
