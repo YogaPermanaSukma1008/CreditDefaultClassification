@@ -31,13 +31,15 @@ Untuk mencapai tujuan di atas, proyek ini mengusulkan beberapa solusi teknis dan
 ### Dataset
 Dataset yang digunakan dalam proyek ini berasal dari kaggle dengan link sebagai berikut [Dataset](https://www.kaggle.com/datasets/kmldas/loan-default-prediction/data). Data ini adalah kumpulan data sintetis yang dibuat menggunakan data aktual dari lembaga keuangan. Data telah dimodifikasi untuk menghilangkan fitur yang dapat diidentifikasi dan angka diubah untuk memastikan data tidak terkait dengan sumber asli (lembaga keuangan).
 
-Dataset ini berisi 10000 baris dengan 4 kolom (3 fitur independen dan 1 fitur target). Berikut adalah fitur - fitur yang terkandung pada dataset:
+Dataset ini berisi 10000 baris dengan 5 kolom (4 fitur independen dan 1 fitur target). Berikut adalah fitur - fitur yang terkandung pada dataset:
 1. Index : nomor seri atau pengenal unik dari penerima pinjaman
 2. Employed : Menyatakan tentang status pekerjaan (apakah bekerja atau tidak). Data pada fitur ini dinyatakan sebagai binary, dimana 1 menyatakan seseorang bekerja (employed) dan 0 menyarakan seseorang tidak bekerja (not employed).
 3. Bank Balance : Merupakan data numerik yang menyatakan jumlah saldo pada akun bank nasabah.
 4. Annual Salary : Merupakan data numerik yang menyatakan gaji tahunan nasabah.
 5. Default : Merupakan data binary (boolean) yang menyatakan status default nasabah. Angka 1 menyatakan default (gagal bayar) dan 0 adalah not default (tidak gagal bayar).
-Sebelum dilakukan proses EDA, perlu memahami data structure dengan melakukan loading data. Berdasarkan tahap loading data dan data understanding, terdapat 10000 baris dengan 5 kolom (index, Employed, Bank Balance, Annual Salary dan Default). Seluruh fitur data merupakan data numerik dengan 3 fitur integer dan 2 fitur float. Tidak terdapat data kosong atau data duplikat sehingga tidak perlu membersihkan data karena data ini telah bersih. 
+Sebelum dilakukan proses EDA, perlu memahami data structure dengan melakukan loading data. Berdasarkan tahap loading data dan data understanding, terdapat 10000 baris dengan 5 kolom (index, Employed, Bank Balance, Annual Salary dan Default). Seluruh fitur data merupakan data numerik dengan 3 fitur integer dan 2 fitur float. Tidak terdapat data kosong atau data duplikat sehingga tidak perlu membersihkan data karena data ini telah bersih.
+
+Notes: Fitur target adalah kolom default sementara independen adalah Employed, Bank Balance, dan Annual Salary. Kolom index tidak diperlukan karena tidak memberikan informasi yang dapat menjelaskan kondisi default peminjam sehingga dilakukan proses dropping atau penghapusan kolom index. 
 
 ### EDA (Exploratory Data Analysis)
 EDA (Exploratory Data Analysis) adalah proses eksplorasi awal terhadap data sebelum modeling, dengan tujuan memahami struktur, pola, anomali, dan hubungan antar variabel dalam dataset. Dalam hal ini, EDA yang digunakan yaitu:
